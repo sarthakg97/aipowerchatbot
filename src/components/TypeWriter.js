@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function TypeWriter({ text }) {
   const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
-    // ← Strong check!
     if (!text || typeof text !== "string") return;
-    
     setDisplayed("");
     const words = text.split(" ");
     const timeouts = [];
@@ -24,5 +23,18 @@ export default function TypeWriter({ text }) {
     };
   }, [text]);
 
-  return <div>{displayed}</div>;
+  return (
+    <ReactMarkdown
+      components={{
+        code: ({node, ...props}) => (
+          <code className="bg-blue-800 px-1 rounded text-xs" {...props} />
+        ),
+        pre: ({node, ...props}) => (
+          <pre className="bg-blue-800 p-2 rounded mt-2 text-xs overflow-auto" {...props} />
+        ),
+      }}
+    >
+      {displayed}
+    </ReactMarkdown>
+  );
 }

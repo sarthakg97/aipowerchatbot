@@ -101,7 +101,18 @@ export default function ChatPage() {
                             {!isUser && index === messages.length - 1 ? (
                               <TypeWriter text={message.content} />
                             ) : (
-                              message.content
+                              <ReactMarkdown
+                                components={{
+                                  code: ({node, ...props}) => (
+                                    <code className="bg-blue-800 px-1 rounded text-xs" {...props} />
+                                  ),
+                                  pre: ({node, ...props}) => (
+                                    <pre className="bg-blue-800 p-2 rounded mt-2 text-xs overflow-auto" {...props} />
+                                  ),
+                                }}
+                              >
+                                {message.content}
+                              </ReactMarkdown>
                             )}
                           </div>
                         </div>
